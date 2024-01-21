@@ -1,0 +1,134 @@
+Microsoft Windows [Version 10.0.22000.675]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\xampp\mysql>mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 14
+Server version: 10.4.24-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> CREATE DATABASE Hadeel;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [(none)]> use Hadeel;
+Database changed
+MariaDB [Hadeel]> CREATE TABLE room(
+    -> Room_id int(8) not null,
+    -> Room_no int(8) not null,
+    -> Room_type varchar(20) not null,
+    -> PRIMARY KEY(Room_id));
+Query OK, 0 rows affected (0.017 sec)
+
+MariaDB [Hadeel]> desc room;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| Room_id   | int(8)      | NO   | PRI | NULL    |       |
+| Room_no   | int(8)      | NO   | FOR | NULL    |       |
+| Room_type | varchar(20) | NO   |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.011 sec)
+
+MariaDB [Hadeel]> INSERT INTO Room VALUES('1234567','2002','DELUX ROOM');
+Query OK, 1 row affected (0.012 sec)
+
+MariaDB [Hadeel]> INSERT INTO Room VALUES('12345678','1001','none');
+Query OK, 1 row affected (0.009 sec)
+
+MariaDB [Hadeel]> INSERT INTO Room VALUES('23456789','1002','SINGLE ROOM');
+Query OK, 1 row affected (0.011 sec)
+
+MariaDB [Hadeel]> INSERT INTO Room VALUES('54679832','7017','FAMILY ROOM');
+Query OK, 1 row affected (0.003 sec)
+
+MariaDB [Hadeel]> SELECT*FROM room;
++----------+---------+-------------+
+| Room_id  | Room_no | Room_type   |
++----------+---------+-------------+
+|  1234567 |    2002 | DELUX ROOM  |
+| 12345678 |    1001 | none        |
+| 23456789 |    1002 | SINGLE ROOM |
+| 54679832 |    7017 | FAMILY ROOM |
++----------+---------+-------------+
+4 rows in set (0.000 sec)
+
+MariaDB [Hadeel]> CREATE TABLE reservation(
+    -> RES_id int(8) not null,
+    -> RES_name varchar(30) not null,
+    -> RES_Lname varchar(20) not null,
+    -> RES_gender varchar(20) not null,
+    -> RES_email varchar(20) not null,
+    -> RES_date date not null,
+    -> PRIMARY KEY(RES_id),
+    -> FOREIGN KEY(room_no) REFERENCES room(room_no));
+		
+MariaDB [Hadeel]> desc reservation;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| RES_id     | int(8)      | NO   | PRI | NULL    |       |
+| RES_name   | varchar(30) | NO   |     | NULL    |       |
+| RES_Lname  | varchar(20) | NO   |     | NULL    |       |
+| RES_gender | varchar(20) | NO   |     | NULL    |       |
+| RES_email  | varchar(20) | NO   |     | NULL    |       |
+| RES_date   | date        | NO   |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+6 rows in set (0.012 sec)
+
+MariaDB [Hadeel]> INSERT INTO reservation VALUES('3747565','willia','snail','female','hhhyy@gmail.com','0000-00-00-0001');
+Query OK, 1 row affected, 1 warning (0.012 sec)
+
+MariaDB [Hadeel]> INSERT INTO reservation VALUES('3747564','millia','snail','female','hhhyy@gmail.com','0000-00-00-0001');
+Query OK, 1 row affected, 1 warning (0.009 sec)
+
+MariaDB [Hadeel]> SELECT*FROM reservation;
++---------+----------+-----------+------------+-----------------+------------+
+| RES_id  | RES_name | RES_Lname | RES_gender | RES_email       | RES_date   |
++---------+----------+-----------+------------+-----------------+------------+
+| 3747564 | millia   | snail     | female     | hhhyy@gmail.com | 0000-00-00 |
+| 3747565 | willia   | snail     | female     | hhhyy@gmail.com | 0000-00-00 |
++---------+----------+-----------+------------+-----------------+------------+
+2 rows in set (0.000 sec)
+
+MariaDB [Hadeel]> CREATE TABLE client(
+    -> Client_id int(8) not null,
+    -> Client_name varchar(30) not null,
+    -> Client_Lname varchar(20) not null,
+    -> Client_gender varchar(20) not null,
+    -> Client_email varchar(20) not null,
+    -> Client_date date not null,
+    -> RES_id int (8) not null,
+    -> PRIMARY KEY(client_id),
+    -> FOREIGN KEY(RES_id) REFERENCES resrvation(RES_id));
+
+MariaDB [Hadeel]> desc client;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| Client_id     | int(8)      | NO   | PRI | NULL    |       |
+| Client_name   | varchar(30) | NO   |     | NULL    |       |
+| Client_Lname  | varchar(20) | NO   |     | NULL    |       |
+| Client_gender | varchar(20) | NO   |     | NULL    |       |
+| Client_email  | varchar(20) | NO   |     | NULL    |       |
+| Client_date   | date        | NO   |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+6 rows in set (0.012 sec)
+
+MariaDB [Hadeel]> INSERT INTO client VALUES('3747565','jack','jackson','male','catkitty@gmail.com','0000-00-00-0001');
+Query OK, 1 row affected, 1 warning (0.010 sec)
+
+MariaDB [Hadeel]> SELECT*FROM client;
++-----------+-------------+--------------+---------------+--------------------+-------------+
+| Client_id | Client_name | Client_Lname | Client_gender | Client_email       | Client_date |
++-----------+-------------+--------------+---------------+--------------------+-------------+
+|   3747565 | jack        | jackson      | male          | catkitty@gmail.com | 0000-00-00  |
++-----------+-------------+--------------+---------------+--------------------+-------------+
+1 row in set (0.000 sec)
+
+MariaDB [Hadeel]> CEATE VIEW[female client]AS
+    -> SELECT client_name,client_Lname FROM client WHERE client_gender = 'female';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'CEATE VIEW[femal client]AS
